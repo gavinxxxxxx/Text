@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="me.gavin.app.Book" />
+
+    </data>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardBackgroundColor="@android:color/white"
+        app:contentPadding="8dp">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:imageUrl="@{item.cover}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="W,1:1.4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription"
+                tools:src="@color/colorAccent" />
+
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:singleLine="true"
+                android:text="@{item.name}"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toTopOf="@+id/tvAuthor"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="spread_inside"
+                tools:text="从零开始" />
+
+            <TextView
+                android:id="@+id/tvAuthor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="@{item.author}"
+                android:textColor="@color/textColorSecondary"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toTopOf="@+id/tvIntro"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/tvName"
+                app:layout_constraintTop_toBottomOf="@+id/tvName"
+                tools:text="雷云风暴" />
+
+            <TextView
+                android:id="@+id/tvIntro"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:lines="2"
+                android:text="@{item.intro}"
+                android:textColor="@color/textColorTertiary"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toTopOf="@+id/tvSrc"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/tvName"
+                app:layout_constraintTop_toBottomOf="@+id/tvAuthor"
+                tools:text="afew fewaafew" />
+
+            <TextView
+                android:id="@+id/tvSrc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:singleLine="true"
+                android:text="@{item.srcNames.replaceAll(`,`, `・`)}"
+                android:textColor="@color/textColorTertiary"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/tvName"
+                app:layout_constraintTop_toBottomOf="@+id/tvIntro"
+                tools:ignore="SmallSp"
+                tools:text="bilibili・衍墨轩" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/ivMenu"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="-8dp"
+            android:layout_marginTop="-4dp"
+            android:padding="4dp"
+            android:src="@drawable/ic_more_vert_black_24dp"
+            android:tint="#aaa"
+            android:visibility="gone"
+            tools:ignore="ContentDescription"
+            tools:visibility="visible" />
+
+    </android.support.v7.widget.CardView>
+
+</layout>

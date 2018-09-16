@@ -1,0 +1,246 @@
+[
+  {
+    "id": "ymoxuan",
+    "name": "衍墨轩",
+    "attr": null,
+    "host": "https://www.ymoxuan.com",
+    "flag": 2,
+    "data": {
+      "query": {
+        "url": "{host}/search.htm?keyword={query}",
+        "select": "body > section > div.left > section > ul > li",
+        "fields": [
+          {
+            "type": "id",
+            "select": "span.n2 > a",
+            "attr": "href",
+            "feature": "//www.ymoxuan.com/text_{bookId}.html"
+          },
+          {
+            "type": "name",
+            "select": "span.n2 > a"
+          },
+          {
+            "type": "author",
+            "select": "span.a2 > a"
+          }
+        ]
+      },
+      "detail": {
+        "url": "{host}/text_{bookId}.html",
+        "select": "body > section > div.left > article.info",
+        "fields": [
+          {
+            "type": "category",
+            "select": "p.detail.pt20 > i:nth-child(2) > a"
+          },
+          {
+            "type": "state",
+            "select": "p.detail.pt20 > i:nth-child(3)"
+          },
+          {
+            "type": "updateTime",
+            "select": "p:nth-child(4) > i"
+          },
+          {
+            "type": "updateChapter",
+            "select": "p:nth-child(5) > i > a"
+          },
+          {
+            "type": "intro",
+            "select": "p.desc"
+          },
+          {
+            "type": "cover",
+            "select": "div.cover > img",
+            "attr": "src"
+          },
+          {
+            "type": "ext",
+            "select": "div.operate.clearfix > a.btn.btn-primary",
+            "attr": "href",
+            "feature": "//www.ymoxuan.com/book/{ext}/\\d+/\\d+.html"
+          }
+        ]
+      },
+      "catalog": {
+        "url": "{host}/book/{ext}/{bookId}/index.html",
+        "select": "body > section > article > ul > li.col3 > a",
+        "fields": [
+          {
+            "type": "id",
+            "select": null,
+            "attr": "href",
+            "feature": "//www.ymoxuan.com/book/\\d+/\\d+/{chapterId}.html"
+          },
+          {
+            "type": "title",
+            "select": null
+          }
+        ]
+      },
+      "chapter": {
+        "url": "{host}/book/{ext}/{bookId}/{chapterId}.html",
+        "select": "#content"
+      }
+    }
+  },
+  {
+    "id": "daocaorenshuwu",
+    "name": "稻草人书屋",
+    "attr": null,
+    "host": "http://www.daocaorenshuwu.com",
+    "flag": 2,
+    "data": {
+      "query": {
+        "url": "{host}/plus/search.php?q={query}",
+        "select": "body > div:nth-child(5) > div.panel.panel-info > div.panel-body > table > tbody > tr",
+        "fields": [
+          {
+            "type": "id",
+            "select": "td:nth-child(1) > a",
+            "attr": "href",
+            "feature": "/{bookId}/"
+          },
+          {
+            "type": "name",
+            "select": "td:nth-child(1) > a",
+            "attr": "title"
+          },
+          {
+            "type": "author",
+            "select": "td:nth-child(2)"
+          }
+        ]
+      },
+      "detail": {
+        "url": "{host}/{bookId}/",
+        "select": "body > div:nth-child(5) > div.col-big.fl > div.book-info > div > div",
+        "fields": [
+          {
+            "type": "category",
+            "select": "div.media > div.media-body > div.row > div:nth-child(3)"
+          },
+          {
+            "type": "state",
+            "select": "div.media > div.media-body > div.row > div:nth-child(2)"
+          },
+          {
+            "type": "updateTime",
+            "select": "tr:nth-child(1) > td:nth-child(7)"
+          },
+          {
+            "type": "updateChapter",
+            "select": "div.media > div.media-body > div.row > div.col-md-8.col-sm-6.dark > a"
+          },
+          {
+            "type": "intro",
+            "select": "div.row.mt10 > div.col-sm-11.col-xs-10 > div"
+          },
+          {
+            "type": "cover",
+            "select": "div.media > div.media-left > a > img",
+            "attr": "src"
+          }
+        ]
+      },
+      "catalog": {
+        "url": "{host}/{bookId}/",
+        "select": "#all-chapter > div > div.panel-body > div > div.col-md-6.item > a",
+        "fields": [
+          {
+            "type": "id",
+            "select": null,
+            "attr": "href",
+            "feature": "http://www.daocaorenshuwu.com/\\S+/{chapterId}.html"
+          },
+          {
+            "type": "title",
+            "select": null,
+            "attr": "title"
+          }
+        ]
+      },
+      "chapter": {
+        "url": "{host}/{bookId}/{chapterId}.html",
+        "select": "#cont-text"
+      }
+    }
+  },
+  {
+    "id": "22ff",
+    "name": "无弹窗小说网",
+    "attr": null,
+    "host": "http://www.22ff.com",
+    "flag": 2,
+    "data": {
+      "query": {
+        "url": "{host}/s_{query}",
+        "select": "body > div:nth-child(3) > div.neirong > ul",
+        "fields": [
+          {
+            "type": "id",
+            "select": "li.neirong1 > a",
+            "attr": "href",
+            "feature": "/xs/{bookId}/"
+          },
+          {
+            "type": "name",
+            "select": "li.neirong1 > a"
+          },
+          {
+            "type": "author",
+            "select": "li.neirong4 > a"
+          }
+        ]
+      },
+      "detail": {
+        "url": "{host}/xs/{bookId}/",
+        "select": "body div.main table.fw",
+        "fields": [
+          {
+            "type": "category",
+            "select": "tr:nth-child(1) > td:nth-child(5) > a"
+          },
+          {
+            "type": "updateTime",
+            "select": "tr:nth-child(1) > td:nth-child(7)"
+          },
+          {
+            "type": "updateChapter",
+            "select": "tr:nth-child(2) > td > a"
+          },
+          {
+            "type": "intro",
+            "select": "tr:nth-child(4) > td"
+          },
+          {
+            "type": "cover",
+            "select": "tr:nth-child(1) > td:nth-child(1) > img",
+            "attr": "src"
+          }
+        ]
+      },
+      "catalog": {
+        "url": "{host}/xs/{bookId}/",
+        "select": "body > div.main > div.neirong > div.clc > a",
+        "fields": [
+          {
+            "type": "id",
+            "select": null,
+            "attr": "href",
+            "feature": "/xs/\\d+/{chapterId}/"
+          },
+          {
+            "type": "title",
+            "select": null
+          }
+        ]
+      },
+      "chapter": {
+        "url": "{host}/xs/{bookId}/{chapterId}/",
+        "select": "#chapter_content"
+      }
+    }
+  }
+]
