@@ -25,7 +25,7 @@ class ShelfActivity : BaseActivity<ActivityShelfBinding>() {
                 override fun onQueryTextChange(newText: String) = false
                 override fun onQueryTextSubmit(query: String): Boolean {
                     SearchActivity.start(this@ShelfActivity, query)
-                    return true
+                    return false
                 }
             })
         }

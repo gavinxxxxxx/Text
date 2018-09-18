@@ -12,7 +12,9 @@ import me.gavin.base.BaseActivity
 import me.gavin.base.BindingAdapter
 import me.gavin.base.Provider.api
 import me.gavin.base.dataLayer
+import me.gavin.base.fromJson
 import me.gavin.databinding.LayoutToolbarRecyclerBinding
+import okio.Okio
 
 
 class SearchActivity : BaseActivity<LayoutToolbarRecyclerBinding>() {
@@ -54,46 +56,17 @@ class SearchActivity : BaseActivity<LayoutToolbarRecyclerBinding>() {
                     println(it)
                 }, { it.printStackTrace() })
 
-        val source = Source(
-                "ymoxuan",
-                "ymoxuan",
-                "ymoxuan",
-                "ymoxuan",
-                "ymoxuan",
-                "ymoxuan",
-                "ymoxuan",
-                "ymoxuan",
-                "ymoxuan",
-                "ymoxuan",
-                "ymoxuan",
-                "ymoxuan",
-                "ymoxuan",
-                "ymoxuan",
-                "ymoxuan",
-                "ymoxuan",
-                "ymoxuan",
-                "ymoxuan",
-                "ymoxuan",
-                "ymoxuan",
-                "ymoxuan",
-                "ymoxuan",
-                "ymoxuan",
-                "ymoxuan",
-                "ymoxuan",
-                true)
-
-        Observable.just(source)
-                .map { listOf(it) }
-                .map {
-                    AppDatabase.getInstance(this)
-                            .sourceDao().insertAll(it)
-                }
+        Observable.just("src.json")
+                .map { assets.open(it) }
+                .map { Okio.buffer(Okio.source(it)).readUtf8() }
+                .map { it.fromJson<List<Source>>() }
+                .map { AppDatabase.getInstance(this).sourceDao().insertAll(it) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     println(it)
                 }, { it.printStackTrace() })
-        
+
         AppDatabase.getInstance(this)
                 .sourceDao()
                 .listAll()
