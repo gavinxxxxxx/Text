@@ -1,0 +1,31 @@
+[
+  {
+    "id": "ymoxuan",
+    "name": "衍墨轩",
+    "attr": null,
+    "host": "https://www.ymoxuan.com",
+    "flag": 2,
+    "ruleQueryUrl": "{host}/search.htm?keyword={query}",
+    "ruleQuerySelector": "body > section > div.left > section > ul > li",
+    "ruleQueryName": "span.n2 > a",
+    "ruleQueryAuthor": "span.a2 > a",
+    "ruleQueryCover": null,
+    "ruleQueryIntro": null,
+    "ruleQueryHref": "",
+    "ruleBookAuthor": "",
+    "ruleBookCover": "body > section > div.left > article.info > div.cover > img",
+    "ruleBookCategory": "body > section > div.left > article.info > p.detail.pt20 > i:nth-child(2) > a",
+    "ruleBookState": "body > section > div.left > article.info > p.detail.pt20 > i:nth-child(3)",
+    "ruleBookLastTime": "body > section > div.left > article.info > p:nth-child(4) > i",
+    "ruleBookLastChapter": "body > section > div.left > article.info > p:nth-child(5) > i > a",
+    "ruleBookIntro": "body > section > div.left > article.info > p.desc",
+    "ruleBookHref": "",
+    "ruleBookChapterSelector": "",
+    "ruleChapterName": "",
+    "ruleChapterHref": "",
+    "ruleContent": "",
+    "ruleContentFilter": null,
+    "remark": null,
+    "enable": true
+  }
+]
