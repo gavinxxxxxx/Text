@@ -53,16 +53,16 @@ object Provider {
                 .build()
     }
 
-    inline fun <reified T> String.fromJson() =
-            try {
-                gson.fromJson<T>(this, object : TypeToken<T>() {}.type)
-            } catch (e: Exception) {
-                null
-            }
-
     fun Any.toJson(): String = gson.toJson(this)
 
     val DataLayer.api
         get() = clientApi
 
 }
+
+inline fun <reified T> String.fromJson() =
+        try {
+            Provider.gson.fromJson<T>(this, object : TypeToken<T>() {}.type)
+        } catch (e: Exception) {
+            null
+        }
