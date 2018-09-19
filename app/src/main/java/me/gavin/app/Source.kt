@@ -1,7 +1,6 @@
 package me.gavin.app
 
 import android.arch.persistence.room.*
-import android.content.Context
 import io.reactivex.Flowable
 
 /**
@@ -47,25 +46,5 @@ interface SourceDao {
 
     @Query("SELECT * FROM source")
     fun listAll(): Flowable<List<Source>>
-
-}
-
-@Database(entities = arrayOf(Source::class), version = 1)
-abstract class AppDatabase : RoomDatabase() {
-
-    abstract fun sourceDao(): SourceDao
-
-    companion object {
-        @Volatile private var INSTANCE: AppDatabase? = null
-        fun getInstance(context: Context): AppDatabase =
-                INSTANCE ?: synchronized(this) {
-                    INSTANCE ?: buildDatabase(context).also { INSTANCE = it }
-                }
-
-        private fun buildDatabase(context: Context) =
-                Room.databaseBuilder(context.applicationContext,
-                        AppDatabase::class.java, "text.db")
-                        .build()
-    }
 
 }
