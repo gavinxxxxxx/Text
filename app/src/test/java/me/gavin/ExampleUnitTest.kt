@@ -10,7 +10,7 @@ import org.junit.Test
 class ExampleUnitTest {
 
     @Test
-    fun abc() {
-        println(1 + 2)
+    fun split() {
+        println("abc.xyz_few@fei:121".split("."))
     }
 }

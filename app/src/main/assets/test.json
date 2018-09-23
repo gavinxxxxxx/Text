@@ -3,7 +3,7 @@
     "url": "http://www.ymoxuan.com",
     "name": "衍墨轩",
     "ruleQueryUrl": "http://www.ymoxuan.com/search.htm?keyword={query}",
-    "ruleQueryList": "class.lastest@tag.li",
+    "ruleQueryList": "class.lastest@tag.li!0:-1",
     "ruleQueryName": "class.n2.0@tag.a.0@text",
     "ruleQueryAuthor": "class.a2.0@tag.a.0@text",
     "ruleQueryCover": "",

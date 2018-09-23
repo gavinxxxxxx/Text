@@ -1,13 +1,21 @@
 package me.gavin.base
 
+import android.app.Activity
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import me.gavin.util.CacheHelper
+import me.gavin.util.okhttp.OKHttpCacheInterceptor
+import me.gavin.util.okhttp.OKHttpCacheNetworkInterceptor
+import me.gavin.util.okhttp.OKHttpParseInterceptor
+import okhttp3.Cache
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import java.io.File
 import java.util.concurrent.TimeUnit
 
 
@@ -44,18 +52,21 @@ object Provider {
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(10, TimeUnit.SECONDS)
-//                .addInterceptor(logging)
+                .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
 //                .addInterceptor(logging2)
-//                .addInterceptor(cacheInterceptor)
-//                .addInterceptor(OKHttpParseInterceptor ())
-//                .addNetworkInterceptor(cacheNetworkInterceptor)
-//                .cache(cache)
+                .addInterceptor(OKHttpCacheInterceptor())
+                .addInterceptor(OKHttpParseInterceptor())
+                .addNetworkInterceptor(OKHttpCacheNetworkInterceptor())
+                .cache(Cache(File(CacheHelper.getCacheDir(App.app), "responses"), 1024 * 1024 * 200))
                 .build()
     }
 
     fun Any.toJson(): String = gson.toJson(this)
 
     val DataLayer.api
+        get() = clientApi
+
+    val Activity.api
         get() = clientApi
 
 }

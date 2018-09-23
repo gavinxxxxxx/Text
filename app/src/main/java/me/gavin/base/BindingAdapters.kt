@@ -13,11 +13,13 @@ import me.gavin.util.ImageLoader
  */
 object BindingAdapters {
 
+    @JvmStatic
     @BindingAdapter("imageUrl")
     fun loadImage(imageView: ImageView, url: String?) {
         ImageLoader.loadImage(imageView, url)
     }
 
+    @JvmStatic
     @BindingAdapter("resId")
     fun loadIcon(imageView: ImageView, resId: Int) {
         imageView.setImageResource(if (resId > 0) resId else R.mipmap.ic_launcher)

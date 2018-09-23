@@ -3,24 +3,26 @@ package me.gavin.app
 import android.arch.persistence.room.*
 import io.reactivex.Flowable
 
-/**
- * 这里是萌萌哒注释君
- *
- * @author gavin.xiong 2018/9/19.
- */
+
+const val SOURCE_FLAG_NONE = 0 // 正常状态
+const val SOURCE_FLAG_DISABLE = 1 // 不可用
+const val SOURCE_FLAG_CHECKED = 1 shl 1 // 选中
+const val SOURCE_FLAG_TOP = 1 shl 2 // 置顶
+const val SOURCE_FLAG_SYS = 1 shl 3 // 内置
+
 @Entity(tableName = "source")
 class Source(
         @PrimaryKey(autoGenerate = false)
-        val id: String,
+        val url: String,
         val name: String,
-        val host: String,
         val ruleQueryUrl: String,
-        val ruleQuerySelector: String,
+        val ruleQueryList: String,
         val ruleQueryName: String,
         val ruleQueryAuthor: String,
         val ruleQueryCover: String?,
+        val ruleQueryCategory: String?,
         val ruleQueryIntro: String?,
-        val ruleQueryHref: String,
+        val ruleQueryBookUrl: String,
         val ruleBookName: String?,
         val ruleBookAuthor: String?,
         val ruleBookCover: String?,
@@ -29,14 +31,17 @@ class Source(
         val ruleBookLastTime: String?,
         val ruleBookLastChapter: String?,
         val ruleBookIntro: String?,
-        val ruleBookHref: String,
-        val ruleBookChapterSelector: String,
+        val ruleBookChapterUrl: String,
+        val ruleChapterList: String,
         val ruleChapterName: String,
-        val ruleChapterHref: String,
+        val ruleChapterContentUrl: String,
         val ruleContent: String,
         val ruleContentFilter: String?,
+        val ruleDiscoveryUrl: String?,
         val remark: String?,
-        var enable: Boolean)
+        val userAgent: String?,
+        val soft: Int = 100,
+        var flag: Int = SOURCE_FLAG_NONE)
 
 @Dao
 interface SourceDao {

@@ -23,7 +23,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".app.ShelfActivity" />
-        <activity android:name=".app.SearchActivity" />
+        <activity android:name=".app.QueryActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.TEST" />
+                <category android:name="android.intent.category.TEST" />
+            </intent-filter>
+        </activity>
 
     </application>
 

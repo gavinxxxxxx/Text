@@ -24,10 +24,15 @@ class ShelfActivity : BaseActivity<ActivityShelfBinding>() {
             searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextChange(newText: String) = false
                 override fun onQueryTextSubmit(query: String): Boolean {
-                    SearchActivity.start(this@ShelfActivity, query)
+                    QueryActivity.start(this@ShelfActivity, query)
                     return false
                 }
             })
+
+        }
+
+        mBinding.includeToolbar?.toolbar?.setOnClickListener {
+            QueryActivity.start(this, "全职法师")
         }
     }
 
