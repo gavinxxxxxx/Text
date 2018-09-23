@@ -50,7 +50,7 @@ class QueryActivity : BaseActivity<LayoutToolbarRecyclerBinding>() {
         mBinding.recycler.setPadding(padding, padding, padding, padding)
         mBinding.recycler.clipToPadding = false
         mAdapter = BindingAdapter(this, mList, R.layout.query_activity_item)
-        mAdapter.callback = { println(it) }
+        mAdapter.callback = { BookDetailActivity.start(this, it) }
         mBinding.recycler.adapter = mAdapter
 
         doQuery(mQuery)
@@ -95,13 +95,13 @@ class QueryActivity : BaseActivity<LayoutToolbarRecyclerBinding>() {
                 .flatMap { Observable.fromIterable(it) }
                 .map {
                     println(" --------------------------- $it --------------------------")
+                    val url = it.single(this.ruleQueryBookUrl, this.ruleQueryUrl)
                     val name = it.single(this.ruleQueryName, this.ruleQueryUrl)
                     val author = it.single(this.ruleQueryAuthor, this.ruleQueryUrl)
                     val cover = it.single(this.ruleQueryCover, this.ruleQueryUrl)
                     val category = it.single(this.ruleQueryCategory, this.ruleQueryUrl)
                     val intro = it.single(this.ruleQueryIntro, this.ruleQueryUrl)
-                    val url = it.single(this.ruleQueryBookUrl, this.ruleQueryUrl)
-                    Book(name, author, cover, category, intro, url, this.name)
+                    Book(url, name, author, cover, category, intro, this.name)
                 }
                 .toList()
                 .toFlowable()

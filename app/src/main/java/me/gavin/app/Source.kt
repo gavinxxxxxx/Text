@@ -11,7 +11,7 @@ const val SOURCE_FLAG_TOP = 1 shl 2 // 置顶
 const val SOURCE_FLAG_SYS = 1 shl 3 // 内置
 
 @Entity(tableName = "source")
-class Source(
+data class Source(
         @PrimaryKey(autoGenerate = false)
         val url: String,
         val name: String,
