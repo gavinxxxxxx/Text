@@ -31,7 +31,7 @@ class OKHttpParseInterceptor : Interceptor {
                 bytes = Okio.buffer(gzipSource).readByteArray()
             }
 
-            val encoding = getCharsetByJUniversalCharDet(ByteArrayInputStream(bytes))
+            val encoding = getCharsetByJUniversalCharDet(ByteArrayInputStream(bytes)) ?: "UTF-8"
             if (!"UTF-8".equals(encoding, ignoreCase = true)) { // 转码成 utf-8
                 val source = Okio.source(ByteArrayInputStream(bytes))
                 bytes = Okio.buffer(source).readString(Charset.forName(encoding)).toByteArray()

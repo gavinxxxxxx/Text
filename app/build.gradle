@@ -68,6 +68,10 @@ android {
         generateStubs = true
     }
 
+    androidExtensions {
+        experimental = true
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -103,7 +107,7 @@ dependencies {
 
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.2.51'
 
-    kapt "com.android.databinding:compiler:3.0.1"
+    // kapt "com.android.databinding:compiler:3.1.4"
 
     implementation 'com.android.support:support-v4:27.1.1'
     implementation 'com.android.support:appcompat-v7:27.1.1'

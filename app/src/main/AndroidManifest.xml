@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
+    <!--todo google search -->
     <application
         android:name=".base.App"
         android:allowBackup="true"
@@ -25,6 +26,7 @@
         <activity android:name=".app.ShelfActivity" />
         <activity android:name=".app.QueryActivity" />
         <activity android:name=".app.BookDetailActivity" />
+        <activity android:name=".app.ReadActivity" />
 
     </application>
 

@@ -3,6 +3,7 @@ package me.gavin.app
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import com.chainfor.finance.base.addTo
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -82,6 +83,7 @@ class QueryActivity : BaseActivity<LayoutToolbarRecyclerBinding>() {
                     mList.addAll(it)
                     mAdapter.notifyDataSetChanged()
                 }, { it.printStackTrace() })
+                .addTo(mCompositeDisposable)
     }
 
     private fun Source.query(query: String): Flowable<List<Book>> {
@@ -101,91 +103,11 @@ class QueryActivity : BaseActivity<LayoutToolbarRecyclerBinding>() {
                     val cover = it.single(this.ruleQueryCover, this.ruleQueryUrl)
                     val category = it.single(this.ruleQueryCategory, this.ruleQueryUrl)
                     val intro = it.single(this.ruleQueryIntro, this.ruleQueryUrl)
-                    Book(url, name, author, cover, category, intro, this.name)
+                    return@map Book(url, name, author, cover, category, intro, this.url, this.name)
                 }
                 .toList()
                 .toFlowable()
                 .subscribeOn(Schedulers.io())
-    }
-
-    private fun Element.list(listRule: String): Elements { // todo list 方法优化
-        val result = Elements()
-        try {
-            val ruleAs = listRule.split('@')
-            if (ruleAs.size > 1) {
-                this.list(ruleAs[0]).forEach {
-                    val index = listRule.indexOf('@') + 1
-                    val listRuleSub = listRule.substring(index)
-                    result.addAll(it.list(listRuleSub))
-                }
-            } else {
-                val ruleEs = listRule.split('!')
-                val rulePs = ruleEs[0].split('.')
-                when (rulePs[0]) {
-                    "children" -> {
-                        result.addAll(this.children())
-                    }
-                    "text" -> {
-                        result.addAll(this.getElementsContainingOwnText(rulePs[1]))
-                    }
-                    "id" -> {
-                        result.add(this.getElementById(rulePs[1]))
-                    }
-                    "class" -> {
-                        if (rulePs.size == 2) {
-                            result.addAll(this.getElementsByClass(rulePs[1]))
-                        } else {
-                            result.add(this.getElementsByClass(rulePs[1])[rulePs[2].toInt()])
-                        }
-                    }
-                    "tag" -> {
-                        if (rulePs.size == 2) {
-                            result.addAll(this.getElementsByTag(rulePs[1]))
-                        } else {
-                            result.add(this.getElementsByTag(rulePs[1])[rulePs[2].toInt()])
-                        }
-                    }
-                }
-                if (ruleEs.size > 1) {
-                    val ruleCs = ruleEs[1].split(':')
-                    val ruleCss = ruleCs.mapTo(ArrayList()) {
-                        val index = it.toInt()
-                        if (index < 0) result.size + index else index
-                    }
-                    val filterResult = result.filterIndexed { index, _ ->
-                        ruleCss.contains(index)
-                    }
-                    result.removeAll(filterResult)
-                }
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        return result
-    }
-
-    private fun Element.single(singleRule: String?, url: String): String {
-        if (singleRule == null || singleRule.isEmpty()) return ""
-        try {
-            val ruleAs = singleRule.split('@')
-            if (ruleAs.size > 1) {
-                val index = singleRule.lastIndexOf('@')
-                val singleRuleSub = singleRule.substring(0, index)
-                this.list(singleRuleSub).forEach {
-                    val result = it.single(ruleAs.last(), url)
-                    if (result.isNotEmpty()) return result
-                }
-            } else {
-                return when (singleRule) {
-                    "text" -> this.text()
-                    "textNode" -> this.wholeText() // todo content 过滤
-                    else -> URL(URL(url), this.attr(singleRule)).toString() // 相对路径转绝对路径
-                }
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        return ""
     }
 
 }

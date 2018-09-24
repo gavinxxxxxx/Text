@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.text.TextUtils" />
+
+        <variable
+            name="item"
+            type="me.gavin.app.Book" />
+    </data>
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/includeToolbar"
+                layout="@layout/layout_toolbar" />
+
+            <android.support.v4.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false">
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.constraint.Guideline
+                        android:id="@+id/lineStart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_begin="@dimen/activity_horizontal_margin" />
+
+                    <android.support.constraint.Guideline
+                        android:id="@+id/lineEnd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_end="@dimen/activity_horizontal_margin" />
+
+                    <View
+                        android:id="@+id/spaceTop"
+                        android:layout_width="0dp"
+                        android:layout_height="8dp"
+                        android:background="@color/colorBackground"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:imageUrl="@{item.cover}"
+                        app:layout_constraintBottom_toBottomOf="@+id/tvSrc"
+                        app:layout_constraintDimensionRatio="W,1:1.4"
+                        app:layout_constraintStart_toEndOf="@+id/lineStart"
+                        app:layout_constraintTop_toTopOf="@+id/tvName"
+                        tools:ignore="ContentDescription"
+                        tools:src="@color/colorAccent" />
+
+                    <TextView
+                        android:id="@+id/tvName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="10dp"
+                        android:singleLine="true"
+                        android:text="@{item.name}"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toTopOf="@+id/tvAuthor"
+                        app:layout_constraintEnd_toStartOf="@+id/lineEnd"
+                        app:layout_constraintStart_toEndOf="@+id/imageView"
+                        app:layout_constraintTop_toBottomOf="@+id/spaceTop"
+                        app:layout_constraintVertical_chainStyle="spread_inside"
+                        tools:text="从零开始" />
+
+                    <TextView
+                        android:id="@+id/tvAuthor"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="@{item.authorExt}"
+                        android:textColor="@color/textColorSecondary"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toTopOf="@+id/tvCategory"
+                        app:layout_constraintEnd_toEndOf="@+id/tvName"
+                        app:layout_constraintStart_toStartOf="@+id/tvName"
+                        app:layout_constraintTop_toBottomOf="@+id/tvName"
+                        tools:text="作者：雷云风暴" />
+
+                    <TextView
+                        android:id="@+id/tvCategory"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="@{item.categoryExt}"
+                        android:textColor="@color/textColorSecondary"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toTopOf="@+id/tvState"
+                        app:layout_constraintEnd_toEndOf="@+id/tvName"
+                        app:layout_constraintStart_toStartOf="@+id/tvName"
+                        app:layout_constraintTop_toBottomOf="@+id/tvAuthor"
+                        tools:text="类型：游戏" />
+
+                    <TextView
+                        android:id="@+id/tvState"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="@{item.stateExt}"
+                        android:textColor="@color/textColorSecondary"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toTopOf="@+id/tvTime"
+                        app:layout_constraintEnd_toEndOf="@+id/tvName"
+                        app:layout_constraintStart_toStartOf="@+id/tvName"
+                        app:layout_constraintTop_toBottomOf="@+id/tvCategory"
+                        tools:text="状态：完本" />
+
+                    <TextView
+                        android:id="@+id/tvTime"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="@{item.updateTimeExt}"
+                        android:textColor="@color/textColorSecondary"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toTopOf="@+id/tvChapter"
+                        app:layout_constraintEnd_toEndOf="@+id/tvName"
+                        app:layout_constraintStart_toStartOf="@+id/tvName"
+                        app:layout_constraintTop_toBottomOf="@+id/tvState"
+                        tools:text="更新：2018-01-01" />
+
+                    <TextView
+                        android:id="@+id/tvChapter"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="@{item.updateChapterExt}"
+                        android:textColor="@color/textColorSecondary"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toTopOf="@+id/tvSrc"
+                        app:layout_constraintEnd_toEndOf="@+id/tvName"
+                        app:layout_constraintStart_toStartOf="@+id/tvName"
+                        app:layout_constraintTop_toBottomOf="@+id/tvTime"
+                        tools:text="章节：完本感言" />
+
+                    <TextView
+                        android:id="@+id/tvSrc"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="@{item.srcNameExt}"
+                        android:textColor="@color/textColorSecondary"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toEndOf="@+id/tvName"
+                        app:layout_constraintStart_toStartOf="@+id/tvName"
+                        app:layout_constraintTop_toBottomOf="@+id/tvChapter"
+                        tools:ignore="SmallSp"
+                        tools:text="书源：衍墨轩" />
+
+                    <TextView
+                        android:id="@+id/tvIntro"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@{item.intro}"
+                        android:textColor="@color/textColorSecondary"
+                        android:textSize="14sp"
+                        android:visibility="@{TextUtils.isEmpty(item.intro) ? 8 : 0}"
+                        app:layout_constraintEnd_toStartOf="@+id/lineEnd"
+                        app:layout_constraintStart_toEndOf="@+id/lineStart"
+                        app:layout_constraintTop_toBottomOf="@+id/imageView"
+                        tools:text="想要让游戏币兑换现实货币，那就一定要有一个强大的经济实体来担保其可兑换性。而这个实体只能是一国的政府。可是政府为什么要出面担保一个游戏的真实货币兑换能力？ 战争也可以这样打。兵不血刃一样能干掉一个国家。一个可以兑换现实货币的游戏，一个超级敛财机器。它的名字就叫做《零》一个彻头彻尾的金融炸弹。" />
+
+                    <View
+                        android:id="@+id/spaceCenter"
+                        android:layout_width="0dp"
+                        android:layout_height="8dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/colorBackground"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvIntro"
+                        app:layout_goneMarginTop="10dp" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/spaceCenter"
+                        tools:listitem="@layout/chapter_item" />
+
+                </android.support.constraint.ConstraintLayout>
+
+            </android.support.v4.widget.NestedScrollView>
+
+        </LinearLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            android:tint="@android:color/white"
+            android:visibility="gone"
+            app:fabSize="normal"
+            app:srcCompat="@drawable/ic_add_black_24dp"
+            tools:visibility="visible" />
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</layout>
