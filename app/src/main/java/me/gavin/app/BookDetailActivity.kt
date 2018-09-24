@@ -9,6 +9,9 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.gavin.R
+import me.gavin.app.entity.Book
+import me.gavin.app.entity.Source
+import me.gavin.app.entity.single
 import me.gavin.base.BaseActivity
 import me.gavin.base.Provider.api
 import me.gavin.base.fromJson

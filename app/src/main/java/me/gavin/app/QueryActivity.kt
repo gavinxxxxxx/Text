@@ -9,6 +9,10 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.gavin.R
+import me.gavin.app.entity.Book
+import me.gavin.app.entity.Source
+import me.gavin.app.entity.list
+import me.gavin.app.entity.single
 import me.gavin.base.BaseActivity
 import me.gavin.base.BindingAdapter
 import me.gavin.base.Provider.api
@@ -17,9 +21,6 @@ import me.gavin.databinding.LayoutToolbarRecyclerBinding
 import me.gavin.util.DisplayUtil
 import okio.Okio
 import org.jsoup.Jsoup
-import org.jsoup.nodes.Element
-import org.jsoup.select.Elements
-import java.net.URL
 
 
 class QueryActivity : BaseActivity<LayoutToolbarRecyclerBinding>() {

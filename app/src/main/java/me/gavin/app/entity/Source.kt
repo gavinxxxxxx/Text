@@ -1,4 +1,4 @@
-package me.gavin.app
+package me.gavin.app.entity
 
 import android.arch.persistence.room.*
 import android.os.Parcelable

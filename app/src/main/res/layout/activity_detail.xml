@@ -9,7 +9,7 @@
 
         <variable
             name="item"
-            type="me.gavin.app.Book" />
+            type="me.gavin.app.entity.Book" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout
