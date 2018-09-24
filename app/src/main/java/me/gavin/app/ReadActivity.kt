@@ -16,6 +16,7 @@ import me.gavin.base.fromJson
 import me.gavin.databinding.ActivityReadBinding
 import okio.Okio
 import org.jsoup.Jsoup
+import java.util.*
 
 
 class ReadActivity : BaseActivity<ActivityReadBinding>() {
@@ -67,7 +68,7 @@ class ReadActivity : BaseActivity<ActivityReadBinding>() {
                 .map { Jsoup.parse(it) }
                 .map { it.list(this.ruleChapterList) }
                 .map {
-                    it.mapIndexedTo(ArrayList()) { index, element ->
+                    it.mapIndexedTo(LinkedList()) { index, element ->
                         println(" --------------------------- $element --------------------------")
                         val url = element.single(this.ruleChapterContentUrl, book.chapterUrl)
                         val name = element.single(this.ruleChapterName, book.chapterUrl)
