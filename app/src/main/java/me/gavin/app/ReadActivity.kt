@@ -35,6 +35,15 @@ class ReadActivity : BaseActivity<ActivityReadBinding>() {
     override fun afterCreate(savedInstanceState: Bundle?) {
         mBook = intent.getParcelableExtra("book") ?: return
 
+        mBook.lastReadTime = System.currentTimeMillis()
+        Flowable.just(mBook)
+                .observeOn(Schedulers.io())
+                .subscribe({
+                    AppDatabase.getInstance(this)
+                            .bookDao()
+                            .insert(it)
+                }, { it.printStackTrace() })
+                .addTo(mCompositeDisposable)
 
         Flowable.just("test.json")
                 .map { assets.open(it) }

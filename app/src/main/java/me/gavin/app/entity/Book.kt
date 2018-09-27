@@ -26,7 +26,9 @@ data class Book(
         var srcName: String = "",
         var chapterCount: Int = 0,
         var chapterIndex: Int = 0,
-        var chapterOffset: Long = 0L) : Parcelable {
+        var chapterOffset: Long = 0L,
+        var lastReadTime: Long = 0L,
+        var readTime: Long = 0L) : Parcelable {
 
     val authorExt
         get() = "作者：$author"
@@ -51,9 +53,9 @@ data class Book(
 interface BookDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(books: List<Book>)
+    fun insert(book: Book): Long
 
-    @Query("SELECT * FROM book")
+    @Query("SELECT * FROM book ORDER BY lastReadTime DESC")
     fun listAll(): Flowable<List<Book>>
 
 }

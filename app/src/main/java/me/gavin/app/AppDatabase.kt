@@ -6,16 +6,15 @@ import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.arch.persistence.room.migration.Migration
 import android.content.Context
-import me.gavin.app.entity.Chapter
-import me.gavin.app.entity.ChapterDao
-import me.gavin.app.entity.Source
-import me.gavin.app.entity.SourceDao
+import me.gavin.app.entity.*
 
 
-@Database(entities = [Source::class, Chapter::class], version = 4)
+@Database(entities = [Source::class, Book::class, Chapter::class], version = 4)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun sourceDao(): SourceDao
+
+    abstract fun bookDao(): BookDao
 
     abstract fun chapterDao(): ChapterDao
 

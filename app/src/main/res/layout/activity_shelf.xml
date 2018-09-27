@@ -23,7 +23,7 @@
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
                 android:padding="16dp"
-                app:layoutManager="GridLayoutManager"
+                app:layoutManager="android.support.v7.widget.GridLayoutManager"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 app:spanCount="4"
                 tools:listitem="@layout/item_shelf_book" />
