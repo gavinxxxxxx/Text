@@ -67,7 +67,6 @@ class ReadActivity : BaseActivity<ActivityReadBinding>() {
                 .map { it.list(this.ruleChapterList) }
                 .map {
                     it.mapIndexedTo(LinkedList()) { index, element ->
-                        println(" --------------------------- $element --------------------------")
                         val url = element.single(this.ruleChapterContentUrl, book.chapterUrl)
                         val name = element.single(this.ruleChapterName, book.chapterUrl)
                         return@mapIndexedTo Chapter(url, name, book.url, index)
