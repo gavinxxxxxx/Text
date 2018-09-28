@@ -3,6 +3,7 @@ package me.gavin.app.entity
 import android.arch.persistence.room.*
 import android.os.Parcelable
 import io.reactivex.Flowable
+import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
 
@@ -29,6 +30,12 @@ data class Book(
         var chapterOffset: Long = 0L,
         var lastReadTime: Long = 0L,
         var readTime: Long = 0L) : Parcelable {
+
+    @IgnoredOnParcel
+    lateinit var source: Source
+
+    val isInit
+        get() = this::source.isInitialized
 
     val authorExt
         get() = "作者：$author"

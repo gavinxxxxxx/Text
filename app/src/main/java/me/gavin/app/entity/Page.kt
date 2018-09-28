@@ -21,7 +21,6 @@ class Page {
     var text: String = ""
 }
 
-
 class Line(val src: String, val suffix: String, val y: Int, val lineIndent: Boolean, val lineAlign: Boolean) {
 
     val text

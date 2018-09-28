@@ -9,14 +9,12 @@ import android.content.Context
 import me.gavin.app.entity.*
 
 
-@Database(entities = [Source::class, Book::class, Chapter::class], version = 4)
+@Database(entities = [Source::class, Book::class], version = 4)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun sourceDao(): SourceDao
 
     abstract fun bookDao(): BookDao
-
-    abstract fun chapterDao(): ChapterDao
 
     companion object {
         @Volatile private var INSTANCE: AppDatabase? = null

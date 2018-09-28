@@ -9,6 +9,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.gavin.R
 import me.gavin.app.entity.*
+import me.gavin.base.App
 import me.gavin.base.BaseActivity
 import me.gavin.base.Provider.api
 import me.gavin.databinding.ActivityReadBinding
@@ -80,5 +81,40 @@ class ReadActivity : BaseActivity<ActivityReadBinding>() {
                 .map { Jsoup.parse(it) }
                 .map { it.single(this.ruleContent, chapter.url) }
     }
+
+    private fun Book.curr() {
+        Observable.just(this)
+                .source()
+                .chapters()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    println("~~~~ $it ~~~~")
+                }, { it.printStackTrace() })
+                .addTo(mCompositeDisposable)
+    }
+
+    private fun Observable<Book>.source(): Observable<Book> {
+        return this.map { book ->
+            if (!book.isInit) {
+                AppDatabase.getInstance(App.app)
+                        .sourceDao()
+                        .load(book.src)
+                        .map { book.source = it }
+            }
+            return@map book
+        }
+    }
+
+    private fun Observable<Book>.chapters(): Observable<Book> {
+        return this.map { book ->
+            if (!book.isInit) {
+                throw NullPointerException("source is null")
+            }
+            book.source.chapters(book)
+            return@map book
+        }
+    }
+
 
 }
