@@ -31,6 +31,7 @@ data class Book(
         var lastReadTime: Long = 0L,
         var readTime: Long = 0L) : Parcelable {
 
+    @Ignore
     @IgnoredOnParcel
     lateinit var source: Source
 
