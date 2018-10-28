@@ -6,7 +6,10 @@ import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.arch.persistence.room.migration.Migration
 import android.content.Context
-import me.gavin.app.entity.*
+import me.gavin.app.entity.Book
+import me.gavin.app.entity.BookDao
+import me.gavin.app.entity.Source
+import me.gavin.app.entity.SourceDao
 
 
 @Database(entities = [Source::class, Book::class], version = 4)

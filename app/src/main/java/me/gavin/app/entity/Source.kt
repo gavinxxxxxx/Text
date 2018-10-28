@@ -134,7 +134,9 @@ fun Element.single(singleRule: String?, url: String): String {
         } else {
             return when (singleRule) {
                 "text" -> this.text()
-                "textNodes" -> this.wholeText() // todo content 过滤
+                "textNodes" -> this.textNodes()
+                        .filter { true } // todo content 过滤
+                        .joinToString(separator = "\n", transform = { it.text() })
                 else -> URL(URL(url), this.attr(singleRule)).toString() // 相对路径转绝对路径
             }
         }

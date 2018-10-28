@@ -35,8 +35,15 @@ data class Book(
     @IgnoredOnParcel
     lateinit var source: Source
 
-    val isInit
+    @Ignore
+    @IgnoredOnParcel
+    lateinit var chapters: List<Chapter>
+
+    val isSourceInit
         get() = this::source.isInitialized
+
+    val isChaptersInit
+        get() = this::chapters.isInitialized
 
     val authorExt
         get() = "作者：$author"

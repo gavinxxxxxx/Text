@@ -11,6 +11,6 @@ class ExampleUnitTest {
 
     @Test
     fun split() {
-        println("abc.xyz_few@fei:121".split("."))
+        println("afe,feiw,".split(","))
     }
 }

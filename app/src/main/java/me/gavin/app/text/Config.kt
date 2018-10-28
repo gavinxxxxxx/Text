@@ -9,6 +9,18 @@ import me.gavin.util.SPUtil
 
 object Config {
 
+    const val REGEX_CHAPTER = "\\s第[0-9零一二三四五六七八九十百千万]+(章|节|集|卷|部|篇|回|话)[^\\n]{0,30}" // 章节
+    const val REGEX_CHAPTER2 = "\\s{1}第(.{1,5})(章|节|集|卷|部|篇)" // 章节 // 二进制?
+    const val REGEX_SEGMENT = "\\s*\\n\\s*" // 分段
+    const val REGEX_SEGMENT_PREFIX = "[\\s\\S]+\\s*\\n\\s*" // 分段 - 段前
+    const val REGEX_SEGMENT_SUFFIX = "\\s*\\n\\s*[\\s\\S]+" // 分段 - 段后
+    const val REGEX_WORD = "[A-Z_a-z0-9\\-]+" // 单词
+    const val REGEX_CHARACTER = "([A-Z_a-z0-9\\-]+|[^A-Za-z0-9\\-])" // 文字
+    const val REGEX_PUNCTUATION = "[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]" // 标点符号
+    const val REGEX_PUNCTUATION_LEFT = "[({'\\[<（｛【‘“]" // 标点符号
+    const val REGEX_PUNCTUATION_RIGHT = "[)}'\\]>）｝】’”]" // 标点符号
+    const val REGEX_PUNCTUATION_N = "[`~!@#$^&*)=|}:;,\\].>/?~！@#￥……&*）——|}】‘；：”'。，、？]" // 标点符号
+
     var width: Int = 0
     var height: Int = 0
 
@@ -47,7 +59,7 @@ object Config {
     var flipAnimDuration: Float = 0.toFloat() // 翻页动画时长比例
 
     init {
-        textSize = SPUtil.getInt("textSize", 40)
+        textSize = SPUtil.getInt("textSize", 36)
         textColor = SPUtil.getInt("textColor", 0xFFA9B7C6.toInt())
         bgColor = SPUtil.getInt("bgColor", 0xFF252525.toInt())
 
