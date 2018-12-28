@@ -59,13 +59,16 @@ object Config {
     var flipAnimDuration: Float = 0.toFloat() // 翻页动画时长比例
 
     init {
-        textSize = SPUtil.getInt("textSize", 36)
-        textColor = SPUtil.getInt("textColor", 0xFFA9B7C6.toInt())
-        bgColor = SPUtil.getInt("bgColor", 0xFF252525.toInt())
+//        textSize = SPUtil.getInt("textSize", 36)
+//        textColor = SPUtil.getInt("textColor", 0xFFA9B7C6.toInt())
+//        bgColor = SPUtil.getInt("bgColor", 0xFF252525.toInt())
+        textSize = 36
+        textColor = 0x60A9B7C6
+        bgColor = 0x00ff4444
 
-        topPadding = SPUtil.getInt("topPadding", 80)
-        bottomPadding = SPUtil.getInt("bottomPadding", 50)
-        leftPadding = SPUtil.getInt("leftPadding", 50)
+        topPadding = SPUtil.getInt("topPadding", 280)
+        bottomPadding = SPUtil.getInt("bottomPadding", 250)
+        leftPadding = SPUtil.getInt("leftPadding", 250)
         rightPadding = SPUtil.getInt("rightPadding", leftPadding)
 
         segmentSpacing = SPUtil.getInt("segmentSpacing", textSize)
@@ -103,18 +106,18 @@ object Config {
      * 尺寸变化时重新计算预加载数量
      */
     fun syncSize(w: Int, h: Int) {
-        width = w
-        height = h
-        segmentPreCount = Math.ceil(((width - leftPadding - rightPadding) / getLetterMinWidth()).toDouble()).toInt() / 2
-        pagePreCount = segmentPreCount * Math.ceil(((height - topPadding - bottomPadding) / textHeight).toDouble()).toInt()
+        if (w != width || h != height) {
+            width = w
+            height = h
+            segmentPreCount = Math.ceil(((width - leftPadding - rightPadding) / getLetterMinWidth()).toDouble()).toInt() / 2
+            pagePreCount = segmentPreCount * Math.ceil(((height - topPadding - bottomPadding) / textHeight).toDouble()).toInt()
+        }
     }
 
     /**
      * 获取字母最小宽度 todo 预加载的数量过多 改成不够在取？
      */
     private fun getLetterMinWidth(): Float {
-        return arrayOf("f", "i", "j", "l", "r", "1")
-                .map { textPaint.measureText(it) }
-                .min()!!
+        return arrayOf("f", "i", "j", "l", "r", "1").map { textPaint.measureText(it) }.min()!!
     }
 }

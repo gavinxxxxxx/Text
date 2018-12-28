@@ -3,6 +3,7 @@ package me.gavin.app.entity
 import android.arch.persistence.room.*
 import android.os.Parcelable
 import io.reactivex.Flowable
+import io.reactivex.Single
 import kotlinx.android.parcel.Parcelize
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
@@ -56,10 +57,10 @@ interface SourceDao {
     fun insertAll(sources: List<Source>)
 
     @Query("SELECT * FROM source")
-    fun listAll(): Flowable<List<Source>>
+    fun listAll(): Single<List<Source>>
 
     @Query("SELECT * FROM source WHERE url = :url")
-    fun load(url: String): Flowable<Source>
+    fun load(url: String): Single<Source>
 
 }
 

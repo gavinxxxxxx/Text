@@ -4,8 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.chainfor.finance.base.addTo
-import io.reactivex.Flowable
-import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.gavin.R
@@ -69,22 +68,18 @@ class BookDetailActivity : BaseActivity<ActivityDetailBinding>() {
     }
 
     private fun source() {
-        Flowable.just("test.json")
+        Single.just("test.json")
                 .map { assets.open(it) }
                 .map { Okio.buffer(Okio.source(it)).readUtf8() }
                 .map { it.fromJson<List<Source>>() }
-                .map {
+                .map { list ->
                     val src = mBook.srcs.split(',').first()
-                    it.forEach {
-                        if (it.url == src) return@map it
-                    }
-                    throw NullPointerException()
+                    return@map list.first { it.url == src }
                 }
 
 //        AppDatabase.getInstance(this)
 //                .sourceDao()
 //                .load(mBook.srcs.split(',').first())
-                .toObservable()
                 .flatMap { it.detail(mBook) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -95,8 +90,8 @@ class BookDetailActivity : BaseActivity<ActivityDetailBinding>() {
                 .addTo(mCompositeDisposable)
     }
 
-    private fun Source.detail(book: Book): Observable<Book> {
-        return Observable.just(book.url)
+    private fun Source.detail(book: Book): Single<Book> {
+        return Single.just(book.url)
                 .flatMap { api.get(it, "max-stale=31536000") }
                 .map { Jsoup.parse(it) }
                 .map {

@@ -1,6 +1,7 @@
 package me.gavin.base
 
 import io.reactivex.Observable
+import io.reactivex.Single
 import okhttp3.ResponseBody
 import retrofit2.http.*
 
@@ -19,7 +20,7 @@ interface ClientAPI {
             "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36"
     )
     @GET
-    fun get(@Url url: String, @Header("Cache-Control") cacheControl: String): Observable<String>
+    fun get(@Url url: String, @Header("Cache-Control") cacheControl: String): Single<String>
 
     /**
      * 下载

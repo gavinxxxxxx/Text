@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.chainfor.finance.base.addTo
 import io.reactivex.Flowable
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.gavin.R
@@ -42,7 +43,7 @@ class QueryActivity : BaseActivity<LayoutToolbarRecyclerBinding>() {
     override fun afterCreate(savedInstanceState: Bundle?) {
         mQuery = intent.getStringExtra("query") ?: "全职法师"
 
-        mBinding.includeToolbar?.run {
+        mBinding.includeToolbar.run {
             toolbar.title = mQuery
             toolbar.setNavigationIcon(R.drawable.ic_arrow_24dp)
             toolbar.setNavigationOnClickListener { finish() }
@@ -88,25 +89,27 @@ class QueryActivity : BaseActivity<LayoutToolbarRecyclerBinding>() {
     }
 
     private fun Source.query(query: String): Flowable<List<Book>> {
-        return Observable.just(query)
+        return Single.just(query)
                 .map { ruleQueryUrl.replace("{query}", query) }
                 .flatMap { api.get(it, "max-stale=31536000") }
                 // .map { it.source().readUtf8() }
                 .map { Jsoup.parse(it) }
                 .map { it.list(this.ruleQueryList) }
                 // .map { it.select(this.ruleQueryList) }
-                .flatMap { Observable.fromIterable(it) }
-                .map {
-                    println(" --------------------------- $it --------------------------")
-                    val url = it.single(this.ruleQueryBookUrl, this.ruleQueryUrl)
-                    val name = it.single(this.ruleQueryName, this.ruleQueryUrl)
-                    val author = it.single(this.ruleQueryAuthor, this.ruleQueryUrl)
-                    val cover = it.single(this.ruleQueryCover, this.ruleQueryUrl)
-                    val category = it.single(this.ruleQueryCategory, this.ruleQueryUrl)
-                    val intro = it.single(this.ruleQueryIntro, this.ruleQueryUrl)
-                    return@map Book(url, name, author, cover, category, intro, this.url, this.name)
+                .flatMap { elements ->
+                    Observable.fromIterable(elements)
+                            .map {
+                                println(" --------------------------- $it --------------------------")
+                                val url = it.single(this.ruleQueryBookUrl, this.ruleQueryUrl)
+                                val name = it.single(this.ruleQueryName, this.ruleQueryUrl)
+                                val author = it.single(this.ruleQueryAuthor, this.ruleQueryUrl)
+                                val cover = it.single(this.ruleQueryCover, this.ruleQueryUrl)
+                                val category = it.single(this.ruleQueryCategory, this.ruleQueryUrl)
+                                val intro = it.single(this.ruleQueryIntro, this.ruleQueryUrl)
+                                return@map Book(url, name, author, cover, category, intro, this.url, this.name)
+                            }
+                            .toList()
                 }
-                .toList()
                 .toFlowable()
                 .subscribeOn(Schedulers.io())
     }
