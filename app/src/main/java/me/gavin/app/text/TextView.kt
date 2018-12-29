@@ -13,27 +13,33 @@ import me.gavin.app.entity.Page
 class TextView(context: Context, attr: AttributeSet?) : View(context, attr) {
 
     val flipper: Flipper by lazy {
-        SimpleFlipper(this)
+        ScrollFlipper(this)
     }
 
-    var book: Book? = null
-        set(value) {
-            field = value?.also { book ->
-                book.onPageReady = {
-                    invalidate()
-                    if (it == 0) {
-                        book.next(pageCurr, pageNext)
-                        book.last(pageCurr, pageLast)
-                    }
-                }
-                book.curr(pageCurr)
-            }
-        }
+//    var book: Book? = null
+//        set(value) {
+//            field = value?.also { book ->
+//                book.onPageReady = {
+//                    invalidate()
+//                    if (it == 0) {
+//                        book.next(pageCurr, pageNext)
+//                        book.last(pageCurr, pageLast)
+//                    }
+//                }
+//                book.curr(pageCurr)
+//            }
+//        }
+
+    fun setBook(book: Book) {
+        flipper.book = book
+        flipper.onBookReady()
+    }
 
     override fun onSizeChanged(w: Int, h: Int, ow: Int, oh: Int) {
         Config.syncSize(w, h)
     }
 
+    // todo -> Chapter<Page>
     var pageCurr = Page()
     var pageNext = Page()
     var pageLast = Page()

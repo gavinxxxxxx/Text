@@ -5,6 +5,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import me.gavin.app.entity.Book
+import me.gavin.app.text.Flipper
 import me.gavin.util.CacheHelper
 import me.gavin.util.okhttp.OKHttpCacheInterceptor
 import me.gavin.util.okhttp.OKHttpCacheNetworkInterceptor
@@ -71,6 +72,9 @@ object Provider {
         get() = clientApi
 
     val Book.api
+        get() = clientApi
+
+    val Flipper.api
         get() = clientApi
 
 }

@@ -40,7 +40,7 @@ class ReadActivity : BaseActivity<ActivityReadBinding>() {
 
         mBook.chapterIndex = 1
 
-        mBinding.text.book = mBook
+        mBinding.text.setBook(mBook)
 
     }
 
