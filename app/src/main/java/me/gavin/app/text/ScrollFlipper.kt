@@ -2,9 +2,9 @@ package me.gavin.app.text
 
 import android.graphics.Canvas
 import android.view.MotionEvent
+import android.view.VelocityTracker
 import android.view.View
 import android.widget.OverScroller
-import android.widget.Scroller
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -31,19 +31,38 @@ class ScrollFlipper(view: TextView) : Flipper(view) {
     }
 
     var lastY = 0F
+    var vt: VelocityTracker? = null
+    var flinger: FlingRunnable? = null
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         when (event.action) {
+            MotionEvent.ACTION_DOWN -> {
+                vt = VelocityTracker.obtain().also {
+                    it.addMovement(event)
+                }
+                flinger?.cancel()
+            }
             MotionEvent.ACTION_MOVE -> {
                 view.scrollY += (lastY - event.y).toInt()
+//                view.translationY -= (lastY - event.y).toInt()
+                vt?.addMovement(event)
+            }
+            MotionEvent.ACTION_CANCEL -> {
+                vt?.recycle()
+                vt = null
             }
             MotionEvent.ACTION_UP -> {
-                val runnable = FlingRunnable(view)
-                runnable.fling()
-                view.post(runnable)
-//                view.post(FlingRunnable(view).also {
-//                    it.fling(view.height, 150)
-//                })
+                vt?.also { vt ->
+                    vt.addMovement(event)
+                    vt.computeCurrentVelocity(1000)
+
+                    view.post(FlingRunnable(view)
+                            .also { fl ->
+                                flinger = fl
+                                fl.fling(vt.yVelocity, words.last().y - view.height + Config.bottomPadding)
+                            })
+                }?.recycle()
+                vt = null
             }
         }
         lastY = event.y
@@ -60,16 +79,21 @@ class FlingRunnable(val view: View) : Runnable {
 
     private val mScroller = OverScroller(view.context)
 
-    fun fling() {
-        mScroller.fling(300, view.scrollY, 100, 100, 0, 2000, 0, 2000)
+    fun fling(velocityY: Float, maxY: Float) {
+        println("fling - $velocityY")
+        mScroller.fling(0, view.scrollY,
+                0, -velocityY.toInt(), 0, 0, 0, maxY.toInt(), 0, 0)
+    }
+
+    fun cancel() {
+        mScroller.forceFinished(true)
     }
 
     override fun run() {
         if (mScroller.isFinished) return
         if (mScroller.computeScrollOffset()) {
             println(mScroller.currY)
-            view.scrollY = mScroller.currY
-            view.scrollX = mScroller.currX
+            view.scrollY = mScroller.currY.toFloat().toInt()
             view.postOnAnimation(this)
         }
     }
