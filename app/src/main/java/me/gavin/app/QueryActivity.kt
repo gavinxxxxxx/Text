@@ -19,7 +19,7 @@ import me.gavin.base.BindingAdapter
 import me.gavin.base.Provider.api
 import me.gavin.base.fromJson
 import me.gavin.databinding.LayoutToolbarRecyclerBinding
-import me.gavin.util.DisplayUtil
+import me.gavin.util.dp2px
 import okio.Okio
 import org.jsoup.Jsoup
 
@@ -49,7 +49,7 @@ class QueryActivity : BaseActivity<LayoutToolbarRecyclerBinding>() {
             toolbar.setNavigationOnClickListener { finish() }
         }
 
-        val padding = DisplayUtil.dp2px(4F)
+        val padding = 4F.dp2px()
         mBinding.recycler.setPadding(padding, padding, padding, padding)
         mBinding.recycler.clipToPadding = false
         mAdapter = BindingAdapter(this, mList, R.layout.query_activity_item)

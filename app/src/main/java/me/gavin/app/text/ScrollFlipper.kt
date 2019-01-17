@@ -9,6 +9,8 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.gavin.app.entity.Word
+import kotlin.math.max
+import kotlin.math.min
 
 class ScrollFlipper(view: TextView) : Flipper(view) {
 
@@ -37,15 +39,15 @@ class ScrollFlipper(view: TextView) : Flipper(view) {
     override fun onTouchEvent(event: MotionEvent): Boolean {
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
+                flinger?.cancel()
                 vt = VelocityTracker.obtain().also {
                     it.addMovement(event)
                 }
-                flinger?.cancel()
             }
             MotionEvent.ACTION_MOVE -> {
-                view.scrollY += (lastY - event.y).toInt()
-//                view.translationY -= (lastY - event.y).toInt()
                 vt?.addMovement(event)
+                view.scrollY = max(0, min(words.last().y.toInt() - view.height + Config.textBottom + Config.bottomPadding,
+                        view.scrollY + (lastY - event.y).toInt()))
             }
             MotionEvent.ACTION_CANCEL -> {
                 vt?.recycle()
@@ -57,9 +59,9 @@ class ScrollFlipper(view: TextView) : Flipper(view) {
                     vt.computeCurrentVelocity(1000)
 
                     view.post(FlingRunnable(view)
-                            .also { fl ->
-                                flinger = fl
-                                fl.fling(vt.yVelocity, words.last().y - view.height + Config.bottomPadding)
+                            .also {
+                                flinger = it
+                                it.fling(vt.yVelocity, words.last().y - view.height + Config.textBottom + Config.bottomPadding)
                             })
                 }?.recycle()
                 vt = null
@@ -70,7 +72,11 @@ class ScrollFlipper(view: TextView) : Flipper(view) {
     }
 
     override fun onDraw(canvas: Canvas) {
-        words.forEach { it.draw(canvas, 0f, 0f) }
+        for (it in words) {
+            if (it.y < view.scrollY) continue
+            it.draw(canvas, 0f, 0f)
+            if (it.y > view.scrollY + view.height + Config.textHeight) break
+        }
     }
 
 }
@@ -80,9 +86,8 @@ class FlingRunnable(val view: View) : Runnable {
     private val mScroller = OverScroller(view.context)
 
     fun fling(velocityY: Float, maxY: Float) {
-        println("fling - $velocityY")
-        mScroller.fling(0, view.scrollY,
-                0, -velocityY.toInt(), 0, 0, 0, maxY.toInt(), 0, 0)
+        mScroller.fling(0, view.scrollY, 0, -velocityY.toInt(),
+                0, 0, 0, maxY.toInt())
     }
 
     fun cancel() {
@@ -92,9 +97,9 @@ class FlingRunnable(val view: View) : Runnable {
     override fun run() {
         if (mScroller.isFinished) return
         if (mScroller.computeScrollOffset()) {
-            println(mScroller.currY)
             view.scrollY = mScroller.currY.toFloat().toInt()
             view.postOnAnimation(this)
         }
     }
+
 }

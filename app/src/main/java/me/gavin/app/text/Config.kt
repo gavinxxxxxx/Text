@@ -3,8 +3,8 @@ package me.gavin.app.text
 import android.graphics.Paint
 import android.view.ViewConfiguration
 import me.gavin.base.App
-import me.gavin.util.DisplayUtil
 import me.gavin.util.SPUtil
+import me.gavin.util.dp2px
 
 
 object Config {
@@ -96,7 +96,7 @@ object Config {
         textHeight = textBottom - textTop // textHeight = textSize * 1.3271484f;
 
         pageCount = 3
-        pageElevation = DisplayUtil.dp2px(10f)
+        pageElevation = 10f.dp2px()
         touchSlop = ViewConfiguration.get(App.app).scaledTouchSlop
         flingVelocity = ViewConfiguration.get(App.app).scaledMinimumFlingVelocity * 2
         flipAnimDuration = 0.4f
